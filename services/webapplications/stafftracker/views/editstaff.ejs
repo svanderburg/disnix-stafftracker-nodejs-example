@@ -1,0 +1,51 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Edit staff</title>
+        <link rel="stylesheet" type="text/css" href="../style.css">
+    </head>
+    <body>
+        <form action="../modifystaff" method="post">
+            <p>
+                <input type="hidden" name="action" value="<%= typeof staffMember == "undefined" ? "insert" : "update" %>">
+                <% if(typeof staffMember != "undefined") { %>
+                    <input type="hidden" name="_id" value="<%= staffMember._id %>">
+                <% } %>
+            </p>
+            <table>
+                <tr>
+                    <th>Name</th>
+                    <td><input name="name" type="text" value="<%= typeof staffMember == "undefined" ? "" : staffMember.name %>"></td>
+                </tr>
+                <tr>
+                    <th>Last name</th>
+                    <td><input name="lastName" type="text" value="<%= typeof staffMember == "undefined" ? "" : staffMember.lastName %>"></td>
+                </tr>
+                <tr>
+                    <th>Room</th>
+                    <td>
+                        <select name="room">
+                        <%
+                        for(var i = 0; i < rooms.length; i++) {
+                            var room = rooms[i];
+                            %>
+                            <option value="<%= room.room %>" <%= (typeof staffMember != "undefined" && staffMember.room == room.room) ? "selected" : "" %>><%= room.room %></option>
+                            <%
+                        }
+                        %>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>IP address</th>
+                    <td><input name="ipAddress" type="text" value="<%= typeof staffMember == "undefined" ? "" : staffMember.ipAddress %>"></td>
+                </tr>
+                <tr>
+                    <td><input type="submit" value="Submit"></td>
+                    <td><input type="reset" value="Reset"></td>
+                </tr>
+            </table>
+        </form>
+    </body>
+</html>

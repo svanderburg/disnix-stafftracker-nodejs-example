@@ -1,0 +1,44 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Display staff</title>
+        <link rel="stylesheet" type="text/css" href="../style.css">
+    </head>
+    <body>
+        <table>
+            <tr>
+                <th>Id</th>
+                <td><%= staffMember._id %></td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td><%= staffMember.name %></td>
+            </tr>
+            <tr>
+                <th>Last name</th>
+                <td><%= staffMember.lastName %></td>
+            </tr>
+            <tr>
+                <th>Room</th>
+                <td><%= staffMember.room %></td>
+            </tr>
+            <tr>
+                <th>Zip code</th>
+                <td><%= zipcode.zipcode %></td>
+            </tr>
+            <tr>
+                <th>Street</th>
+                <td><%= zipcode.street %></td>
+            </tr>
+            <tr>
+                <th>City</th>
+                <td><%= zipcode.city %></td>
+            </tr>
+            <tr>
+                <th>IP address</th>
+                <td><%= staffMember.ipAddress %></td>
+            </tr>
+        </table>
+    </body>
+</html>

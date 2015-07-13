@@ -1,0 +1,17 @@
+{
+  "name": "staffservice",
+  "version": "0.0.1",
+  "description": "REST API interface providing access to the staff data set",
+  "author": "Sander van der Burg",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "express": "4.x.x",
+    "mongodb": "~2.0",
+    "slasp": "0.0.4",
+    "body-parser": "1.13.x"
+  },
+  "bin": {
+    "staffservice": "app.js"
+  }
+}

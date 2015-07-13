@@ -1,0 +1,16 @@
+{
+  "name": "zipcodeservice",
+  "version": "0.0.1",
+  "description": "REST API interface providing access to the zipcode data set",
+  "author": "Sander van der Burg",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "express": "4.x.x",
+    "mongodb": "~2.0",
+    "slasp": "0.0.4"
+  },
+  "bin": {
+    "zipcodeservice": "app.js"
+  }
+}

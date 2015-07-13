@@ -1,0 +1,38 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+    <head>
+        <title>Staff table</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" type="text/css" href="style.css">
+    </head>
+    
+    <body>
+        <p>
+            <a href="editstaff">Add staff member</a>
+        </p>
+
+        <table>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Last name</th>
+                <th>Room</th>
+                <th>IP address</th>
+            </tr>
+            <% for(var i = 0; i < staff.length; i++) {
+                var staffMember = staff[i];
+            %>
+            <tr>
+                <td><a href="displaystaff/<%= staffMember._id %>"><%= staffMember._id %></a></td>
+                <td><%= staffMember.name %></td>
+                <td><%= staffMember.lastName %></td>
+                <td><%= staffMember.room %></td>
+                <td><%= staffMember.ipAddress %></td>
+                <td><a href="editstaff/<%= staffMember._id %>">Edit</a></td>
+                <td><a href="modifystaff?action=delete&amp;id=<%= staffMember._id %>">Delete</a></td>
+            </tr>
+            <% } %>
+        </table>
+    </body>
+</html>
