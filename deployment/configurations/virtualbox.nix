@@ -1,4 +1,4 @@
 {
   deployment.targetEnv = "virtualbox";
-  deployment.virtualbox.memorySize = 1024;
+  deployment.virtualbox.memorySize = 2048;
 }

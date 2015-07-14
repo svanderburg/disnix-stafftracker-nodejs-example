@@ -6,7 +6,7 @@ var zipcodeServiceURL = process.env.ZIPCODESERVICE_URL || "http://localhost:3002
 var roomServiceURL = process.env.ROOMSERVICE_URL || "http://localhost:3001";
 
 function fetchAllStaff(callback) {
-    client.get("http://localhost:3003/staff", function(data, response) {
+    client.get(staffServiceURL+"/staff", function(data, response) {
         callback(null, JSON.parse(data));
     });
 }

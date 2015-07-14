@@ -19,5 +19,12 @@ stdenv.mkDerivation {
     ${stafftracker}/bin/stafftracker
     EOF
     chmod +x $out/bin/run-stafftracker
+    
+    # Add configuration file that specifies under which user the process runs
+    mkdir -p $out/etc
+    cat > $out/etc/process_config <<EOF
+    container_username=stafftracker
+    container_group=stafftracker
+    EOF
   '';
 }

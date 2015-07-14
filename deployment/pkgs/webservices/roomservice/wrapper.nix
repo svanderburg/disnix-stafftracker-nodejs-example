@@ -13,5 +13,12 @@ stdenv.mkDerivation {
     ${roomservice}/bin/roomservice
     EOF
     chmod +x $out/bin/run-roomservice
+    
+    # Add configuration file that specifies under which user the process runs
+    mkdir -p $out/etc
+    cat > $out/etc/process_config <<EOF
+    container_username=roomservice
+    container_group=roomservice
+    EOF
   '';
 }

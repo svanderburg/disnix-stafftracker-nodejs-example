@@ -13,5 +13,12 @@ stdenv.mkDerivation {
     ${zipcodeservice}/bin/zipcodeservice
     EOF
     chmod +x $out/bin/run-zipcodeservice
+    
+    # Add configuration file that specifies under which user the process runs
+    mkdir -p $out/etc
+    cat > $out/etc/process_config <<EOF
+    container_username=zipcodeservice
+    container_group=zipcodeervice
+    EOF
   '';
 }

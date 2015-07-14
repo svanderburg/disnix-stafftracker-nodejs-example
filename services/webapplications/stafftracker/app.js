@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+var path = require('path');
 var slasp = require('slasp');
 var express = require('express');
 var bodyParser = require('body-parser');
@@ -9,6 +10,7 @@ var app = express();
 
 // Configure express to use ejs as template engine
 app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, "views"));
 
 // Parse submitted form data as JSON
 app.use(bodyParser.urlencoded({ extended: false }));
