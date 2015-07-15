@@ -68,5 +68,17 @@ rec {
     };
     type = "process";
     port = 3000;
+    baseURL = "/";
+  };
+
+### Reverse proxy
+
+  nginx = {
+    name = "nginx";
+    pkg = customPkgs.nginx-wrapper;
+    dependsOn = {
+      inherit stafftracker;
+    };
+    type = "wrapper";
   };
 }

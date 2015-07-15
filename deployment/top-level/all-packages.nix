@@ -39,6 +39,11 @@ let
     }).build;
     
     stafftrackerwrapper = callPackage ../pkgs/webapplications/stafftracker/wrapper.nix { };
+
+### Reverse proxy
+
+    nginx-wrapper = callPackage ../pkgs/nginx-wrapper/default.nix { };
   };
+
 in
 self
