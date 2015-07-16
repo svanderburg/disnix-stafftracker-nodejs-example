@@ -11,6 +11,9 @@ var app = express();
 // Parse JSON type as JSON
 app.use(bodyParser.json({ type: 'application/json' }));
 
+// Use the express validator middleware
+app.use(expressValidator());
+
 var url = process.env["STAFFDB_URL"] || 'mongodb://localhost:27017/staff';
 var port = process.env["PORT"] || 3003;
 
@@ -43,34 +46,43 @@ app.get('/staff', function(req, res) {
 });
 
 app.get('/staff/:id', function(req, res) {
-    var id = req.params.id;
-    var db;
+        // Check parameters
+    req.checkParams('id', 'Invalid identifier').notEmpty();
     
-    slasp.sequence([
-        function(callback) {
-            MongoClient.connect(url, callback);
-        },
+    var errors = req.validationErrors();
+    
+    if(errors) {
+        res.status(400).send(errors);
+    } else {
+        var id = req.params.id;
+        var db;
         
-        function(callback, _db) {
-            db = _db;
-            db.collection('staff').find({ _id: ObjectId(id) }).toArray(callback);
-        }
-        
-    ], function(err, staff) {
-        if(err) {
-            res.status(500).send(err);
-        } else {
-            if(staff.length > 0) {
-                res.send(staff[0]);
-            } else {
-                res.status(404).send("Cannot find staff member!");
+        slasp.sequence([
+            function(callback) {
+                MongoClient.connect(url, callback);
+            },
+            
+            function(callback, _db) {
+                db = _db;
+                db.collection('staff').find({ _id: ObjectId(id) }).toArray(callback);
             }
-        }
-        
-        if(!db) {
-            db.close();
-        }
-    });
+            
+        ], function(err, staff) {
+            if(err) {
+                res.status(500).send(err);
+            } else {
+                if(staff.length > 0) {
+                    res.send(staff[0]);
+                } else {
+                    res.status(404).send("Cannot find staff member!");
+                }
+            }
+            
+            if(!db) {
+                db.close();
+            }
+        });
+    }
 });
 
 app.post('/staff', function(req, res) {
@@ -104,68 +116,86 @@ app.post('/staff', function(req, res) {
 });
 
 app.put('/staff/:id', function(req, res) {
-    var id = req.params.id;
-    var db;
+    // Check parameters
+    req.checkParams('id', 'Invalid identifier').notEmpty();
     
-    slasp.sequence([
-        function(callback) {
-            MongoClient.connect(url, callback);
-        },
+    var errors = req.validationErrors();
+    
+    if(errors) {
+        res.status(400).send(errors);
+    } else {
+        var id = req.params.id;
+        var db;
         
-        function(callback, _db) {
-            db = _db;
-            db.collection('staff').update({ _id: ObjectId(id) }, { $set: {
-                name: req.body.name,
-                lastName: req.body.lastName,
-                room: req.body.room,
-                ipAddress: req.body.ipAddress
-            } }, callback);
-        }
-    ], function(err, result) {
-        if(err) {
-            res.status(500).send(err);
-        } else {
-            if(result.result.n == 1) {
-                res.send();
-            } else {
-                res.status(404).send();
+        slasp.sequence([
+            function(callback) {
+                MongoClient.connect(url, callback);
+            },
+            
+            function(callback, _db) {
+                db = _db;
+                db.collection('staff').update({ _id: ObjectId(id) }, { $set: {
+                    name: req.body.name,
+                    lastName: req.body.lastName,
+                    room: req.body.room,
+                    ipAddress: req.body.ipAddress
+                } }, callback);
             }
-        }
-        
-        if(!db) {
-            db.close();
-        }
-    });
+        ], function(err, result) {
+            if(err) {
+                res.status(500).send(err);
+            } else {
+                if(result.result.n == 1) {
+                    res.send();
+                } else {
+                    res.status(404).send();
+                }
+            }
+            
+            if(!db) {
+                db.close();
+            }
+        });
+    }
 });
 
 app.delete('/staff/:id', function(req, res) {
-    var id = req.params.id;
-    var db;
+        // Check parameters
+    req.checkParams('id', 'Invalid identifier').notEmpty();
     
-    slasp.sequence([
-        function(callback) {
-            MongoClient.connect(url, callback);
-        },
+    var errors = req.validationErrors();
+    
+    if(errors) {
+        res.status(400).send(errors);
+    } else {
+        var id = req.params.id;
+        var db;
         
-        function(callback, _db) {
-            db = _db;
-            db.collection('staff').remove({ _id: ObjectId(id) }, callback);
-        }
-    ], function(err, result) {
-        if(err) {
-            res.status(500).send(err);
-        } else {
-            if(result.result.n == 1) {
-                res.send();
-            } else {
-                res.status(404).send();
+        slasp.sequence([
+            function(callback) {
+                MongoClient.connect(url, callback);
+            },
+            
+            function(callback, _db) {
+                db = _db;
+                db.collection('staff').remove({ _id: ObjectId(id) }, callback);
             }
-        }
-        
-        if(!db) {
-            db.close();
-        }
-    });
+        ], function(err, result) {
+            if(err) {
+                res.status(500).send(err);
+            } else {
+                if(result.result.n == 1) {
+                    res.send();
+                } else {
+                    res.status(404).send();
+                }
+            }
+            
+            if(!db) {
+                db.close();
+            }
+        });
+    }
 });
 
 // Start app server

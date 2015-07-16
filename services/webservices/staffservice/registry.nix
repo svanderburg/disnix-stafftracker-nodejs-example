@@ -13,10 +13,16 @@ let
             pkg = self."express-4.13.1";
           };
         };
+        express-validator = {
+          "2.13.x" = {
+            version = "2.13.0";
+            pkg = self."express-validator-2.13.0";
+          };
+        };
         mongodb = {
           "~2.0" = {
-            version = "2.0.36";
-            pkg = self."mongodb-2.0.36";
+            version = "2.0.39";
+            pkg = self."mongodb-2.0.39";
           };
         };
         slasp = {
@@ -216,8 +222,8 @@ let
       dependencies = {
         mime-types = {
           "~2.1.2" = {
-            version = "2.1.2";
-            pkg = self."mime-types-2.1.2";
+            version = "2.1.3";
+            pkg = self."mime-types-2.1.3";
           };
         };
         negotiator = {
@@ -235,18 +241,18 @@ let
       production = true;
       linkDependencies = false;
     };
-    "mime-types-2.1.2" = buildNodePackage {
+    "mime-types-2.1.3" = buildNodePackage {
       name = "mime-types";
-      version = "2.1.2";
+      version = "2.1.3";
       src = fetchurl {
-        url = "http://registry.npmjs.org/mime-types/-/mime-types-2.1.2.tgz";
-        sha1 = "6545ccd95afe77b9c655d81c2e6ceace36257227";
+        url = "http://registry.npmjs.org/mime-types/-/mime-types-2.1.3.tgz";
+        sha1 = "f259849c7eb1f85b8f5f826187278a7f74f0c966";
       };
       dependencies = {
         mime-db = {
-          "~1.14.0" = {
-            version = "1.14.0";
-            pkg = self."mime-db-1.14.0";
+          "~1.15.0" = {
+            version = "1.15.0";
+            pkg = self."mime-db-1.15.0";
           };
         };
       };
@@ -258,12 +264,12 @@ let
       production = true;
       linkDependencies = false;
     };
-    "mime-db-1.14.0" = buildNodePackage {
+    "mime-db-1.15.0" = buildNodePackage {
       name = "mime-db";
-      version = "1.14.0";
+      version = "1.15.0";
       src = fetchurl {
-        url = "http://registry.npmjs.org/mime-db/-/mime-db-1.14.0.tgz";
-        sha1 = "d561f10b6ee66db51f94ae657a2951a74217ed83";
+        url = "http://registry.npmjs.org/mime-db/-/mime-db-1.15.0.tgz";
+        sha1 = "d219e6214bbcae23a6fa69c0868c4fadc1405e8a";
       };
       meta = {
         description = "Media Type Database";
@@ -273,8 +279,8 @@ let
       production = true;
       linkDependencies = false;
     };
-    "mime-db-~1.14.0" = self."mime-db-1.14.0";
-    "mime-types-~2.1.2" = self."mime-types-2.1.2";
+    "mime-db-~1.15.0" = self."mime-db-1.15.0";
+    "mime-types-~2.1.2" = self."mime-types-2.1.3";
     "negotiator-0.5.3" = buildNodePackage {
       name = "negotiator";
       version = "0.5.3";
@@ -952,8 +958,8 @@ let
         };
         mime-types = {
           "~2.1.2" = {
-            version = "2.1.2";
-            pkg = self."mime-types-2.1.2";
+            version = "2.1.3";
+            pkg = self."mime-types-2.1.3";
           };
         };
       };
@@ -1012,18 +1018,78 @@ let
       linkDependencies = false;
     };
     "express-4.x.x" = self."express-4.13.1";
-    "mongodb-2.0.36" = buildNodePackage {
-      name = "mongodb";
-      version = "2.0.36";
+    "express-validator-2.13.0" = buildNodePackage {
+      name = "express-validator";
+      version = "2.13.0";
       src = fetchurl {
-        url = "http://registry.npmjs.org/mongodb/-/mongodb-2.0.36.tgz";
-        sha1 = "d3097dd0c5fc178109029f98d02e00de3becdcb5";
+        url = "http://registry.npmjs.org/express-validator/-/express-validator-2.13.0.tgz";
+        sha1 = "12867fdddce24afd3aea2a6beb83c8e9bdccd636";
+      };
+      dependencies = {
+        lodash = {
+          "3.10.0" = {
+            version = "3.10.0";
+            pkg = self."lodash-3.10.0";
+          };
+        };
+        validator = {
+          "3.40.1" = {
+            version = "3.40.1";
+            pkg = self."validator-3.40.1";
+          };
+        };
+      };
+      meta = {
+        description = "Express middleware for the validator module.";
+        homepage = https://github.com/ctavan/express-validator;
+        license = "MIT";
+      };
+      production = true;
+      linkDependencies = false;
+    };
+    "lodash-3.10.0" = buildNodePackage {
+      name = "lodash";
+      version = "3.10.0";
+      src = fetchurl {
+        url = "http://registry.npmjs.org/lodash/-/lodash-3.10.0.tgz";
+        sha1 = "93d51c672828a4416a12af57220ba8a8737e2fbb";
+      };
+      meta = {
+        description = "The modern build of lodash modular utilities.";
+        homepage = https://lodash.com/;
+        license = "MIT";
+      };
+      production = true;
+      linkDependencies = false;
+    };
+    "validator-3.40.1" = buildNodePackage {
+      name = "validator";
+      version = "3.40.1";
+      src = fetchurl {
+        url = "http://registry.npmjs.org/validator/-/validator-3.40.1.tgz";
+        sha1 = "932a96be466e9e4e92592c859831bda505b7a4dc";
+      };
+      meta = {
+        description = "String validation and sanitization";
+        homepage = http://github.com/chriso/validator.js;
+        license = "MIT";
+      };
+      production = true;
+      linkDependencies = false;
+    };
+    "express-validator-2.13.x" = self."express-validator-2.13.0";
+    "mongodb-2.0.39" = buildNodePackage {
+      name = "mongodb";
+      version = "2.0.39";
+      src = fetchurl {
+        url = "http://registry.npmjs.org/mongodb/-/mongodb-2.0.39.tgz";
+        sha1 = "02977bd825293dbca349d6671744c526549646e5";
       };
       dependencies = {
         mongodb-core = {
-          "1.2.4" = {
-            version = "1.2.4";
-            pkg = self."mongodb-core-1.2.4";
+          "1.2.6" = {
+            version = "1.2.6";
+            pkg = self."mongodb-core-1.2.6";
           };
         };
         readable-stream = {
@@ -1047,18 +1113,18 @@ let
       production = true;
       linkDependencies = false;
     };
-    "mongodb-core-1.2.4" = buildNodePackage {
+    "mongodb-core-1.2.6" = buildNodePackage {
       name = "mongodb-core";
-      version = "1.2.4";
+      version = "1.2.6";
       src = fetchurl {
-        url = "http://registry.npmjs.org/mongodb-core/-/mongodb-core-1.2.4.tgz";
-        sha1 = "8b4e39784c4f90b50e70efe141bd281cfdcec7b4";
+        url = "http://registry.npmjs.org/mongodb-core/-/mongodb-core-1.2.6.tgz";
+        sha1 = "4aeffe09070814d257899e441e49affd6cd8c7c5";
       };
       dependencies = {
         bson = {
           "~0.4" = {
-            version = "0.4.7";
-            pkg = self."bson-0.4.7";
+            version = "0.4.8";
+            pkg = self."bson-0.4.8";
           };
         };
         kerberos = {
@@ -1076,12 +1142,12 @@ let
       production = true;
       linkDependencies = false;
     };
-    "bson-0.4.7" = buildNodePackage {
+    "bson-0.4.8" = buildNodePackage {
       name = "bson";
-      version = "0.4.7";
+      version = "0.4.8";
       src = fetchurl {
-        url = "http://registry.npmjs.org/bson/-/bson-0.4.7.tgz";
-        sha1 = "44a369c2fafe2cd9cd08af0b157c891ebf7d90ad";
+        url = "http://registry.npmjs.org/bson/-/bson-0.4.8.tgz";
+        sha1 = "006020eaee74f5897fb4985b1e413f251c765399";
       };
       meta = {
         description = "A bson parser for node.js and the browser";
@@ -1091,7 +1157,7 @@ let
       production = true;
       linkDependencies = false;
     };
-    "bson-~0.4" = self."bson-0.4.7";
+    "bson-~0.4" = self."bson-0.4.8";
     "kerberos-0.0.12" = buildNodePackage {
       name = "kerberos";
       version = "0.0.12";
@@ -1237,7 +1303,7 @@ let
       production = true;
       linkDependencies = false;
     };
-    "mongodb-~2.0" = self."mongodb-2.0.36";
+    "mongodb-~2.0" = self."mongodb-2.0.39";
     "slasp-0.0.4" = buildNodePackage {
       name = "slasp";
       version = "0.0.4";
