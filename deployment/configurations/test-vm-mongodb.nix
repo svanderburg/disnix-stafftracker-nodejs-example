@@ -14,6 +14,6 @@
     nginx = { group = "nginx"; uid = 60; };
   };
   
-  virtualisation.memorySize = 2048;
-  virtualisation.diskSize = 8192;
+  #virtualisation.memorySize = 2048;
+  #virtualisation.diskSize = 8192;
 }

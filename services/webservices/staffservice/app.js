@@ -2,6 +2,7 @@
 
 var slasp = require('slasp');
 var express = require('express');
+var expressValidator = require('express-validator');
 var bodyParser = require('body-parser');
 var MongoClient = require('mongodb').MongoClient;
 var ObjectId = require('mongodb').ObjectId;

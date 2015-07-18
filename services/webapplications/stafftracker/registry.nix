@@ -19,6 +19,12 @@ let
             pkg = self."express-4.13.1";
           };
         };
+        express-validator = {
+          "2.13.x" = {
+            version = "2.13.0";
+            pkg = self."express-validator-2.13.0";
+          };
+        };
         ejs = {
           "2.3.x" = {
             version = "2.3.3";
@@ -70,8 +76,8 @@ let
       dependencies = {
         accepts = {
           "~1.2.10" = {
-            version = "1.2.10";
-            pkg = self."accepts-1.2.10";
+            version = "1.2.11";
+            pkg = self."accepts-1.2.11";
           };
         };
         array-flatten = {
@@ -202,8 +208,8 @@ let
         };
         type-is = {
           "~1.6.4" = {
-            version = "1.6.4";
-            pkg = self."type-is-1.6.4";
+            version = "1.6.5";
+            pkg = self."type-is-1.6.5";
           };
         };
         vary = {
@@ -227,18 +233,18 @@ let
       production = true;
       linkDependencies = false;
     };
-    "accepts-1.2.10" = buildNodePackage {
+    "accepts-1.2.11" = buildNodePackage {
       name = "accepts";
-      version = "1.2.10";
+      version = "1.2.11";
       src = fetchurl {
-        url = "http://registry.npmjs.org/accepts/-/accepts-1.2.10.tgz";
-        sha1 = "f825f151c0960914881625be845d04940691ef69";
+        url = "http://registry.npmjs.org/accepts/-/accepts-1.2.11.tgz";
+        sha1 = "d341c6e3b420489632f0f4f8d2ad4fd9ddf374e0";
       };
       dependencies = {
         mime-types = {
-          "~2.1.2" = {
-            version = "2.1.2";
-            pkg = self."mime-types-2.1.2";
+          "~2.1.3" = {
+            version = "2.1.3";
+            pkg = self."mime-types-2.1.3";
           };
         };
         negotiator = {
@@ -256,18 +262,18 @@ let
       production = true;
       linkDependencies = false;
     };
-    "mime-types-2.1.2" = buildNodePackage {
+    "mime-types-2.1.3" = buildNodePackage {
       name = "mime-types";
-      version = "2.1.2";
+      version = "2.1.3";
       src = fetchurl {
-        url = "http://registry.npmjs.org/mime-types/-/mime-types-2.1.2.tgz";
-        sha1 = "6545ccd95afe77b9c655d81c2e6ceace36257227";
+        url = "http://registry.npmjs.org/mime-types/-/mime-types-2.1.3.tgz";
+        sha1 = "f259849c7eb1f85b8f5f826187278a7f74f0c966";
       };
       dependencies = {
         mime-db = {
-          "~1.14.0" = {
-            version = "1.14.0";
-            pkg = self."mime-db-1.14.0";
+          "~1.15.0" = {
+            version = "1.15.0";
+            pkg = self."mime-db-1.15.0";
           };
         };
       };
@@ -279,12 +285,12 @@ let
       production = true;
       linkDependencies = false;
     };
-    "mime-db-1.14.0" = buildNodePackage {
+    "mime-db-1.15.0" = buildNodePackage {
       name = "mime-db";
-      version = "1.14.0";
+      version = "1.15.0";
       src = fetchurl {
-        url = "http://registry.npmjs.org/mime-db/-/mime-db-1.14.0.tgz";
-        sha1 = "d561f10b6ee66db51f94ae657a2951a74217ed83";
+        url = "http://registry.npmjs.org/mime-db/-/mime-db-1.15.0.tgz";
+        sha1 = "d219e6214bbcae23a6fa69c0868c4fadc1405e8a";
       };
       meta = {
         description = "Media Type Database";
@@ -294,8 +300,8 @@ let
       production = true;
       linkDependencies = false;
     };
-    "mime-db-~1.14.0" = self."mime-db-1.14.0";
-    "mime-types-~2.1.2" = self."mime-types-2.1.2";
+    "mime-db-~1.15.0" = self."mime-db-1.15.0";
+    "mime-types-~2.1.3" = self."mime-types-2.1.3";
     "negotiator-0.5.3" = buildNodePackage {
       name = "negotiator";
       version = "0.5.3";
@@ -311,7 +317,7 @@ let
       production = true;
       linkDependencies = false;
     };
-    "accepts-~1.2.10" = self."accepts-1.2.10";
+    "accepts-~1.2.10" = self."accepts-1.2.11";
     "array-flatten-1.1.0" = buildNodePackage {
       name = "array-flatten";
       version = "1.1.0";
@@ -957,12 +963,12 @@ let
       linkDependencies = false;
     };
     "serve-static-~1.10.0" = self."serve-static-1.10.0";
-    "type-is-1.6.4" = buildNodePackage {
+    "type-is-1.6.5" = buildNodePackage {
       name = "type-is";
-      version = "1.6.4";
+      version = "1.6.5";
       src = fetchurl {
-        url = "http://registry.npmjs.org/type-is/-/type-is-1.6.4.tgz";
-        sha1 = "d76fe92f0bcf7b0cf16b64d095e248f71079c318";
+        url = "http://registry.npmjs.org/type-is/-/type-is-1.6.5.tgz";
+        sha1 = "92129495c7b7563eaf923b447382c6c471f95de4";
       };
       dependencies = {
         media-typer = {
@@ -972,9 +978,9 @@ let
           };
         };
         mime-types = {
-          "~2.1.2" = {
-            version = "2.1.2";
-            pkg = self."mime-types-2.1.2";
+          "~2.1.3" = {
+            version = "2.1.3";
+            pkg = self."mime-types-2.1.3";
           };
         };
       };
@@ -1001,7 +1007,7 @@ let
       production = true;
       linkDependencies = false;
     };
-    "type-is-~1.6.4" = self."type-is-1.6.4";
+    "type-is-~1.6.4" = self."type-is-1.6.5";
     "vary-1.0.1" = buildNodePackage {
       name = "vary";
       version = "1.0.1";
@@ -1033,6 +1039,66 @@ let
       linkDependencies = false;
     };
     "express-4.x.x" = self."express-4.13.1";
+    "express-validator-2.13.0" = buildNodePackage {
+      name = "express-validator";
+      version = "2.13.0";
+      src = fetchurl {
+        url = "http://registry.npmjs.org/express-validator/-/express-validator-2.13.0.tgz";
+        sha1 = "12867fdddce24afd3aea2a6beb83c8e9bdccd636";
+      };
+      dependencies = {
+        lodash = {
+          "3.10.0" = {
+            version = "3.10.0";
+            pkg = self."lodash-3.10.0";
+          };
+        };
+        validator = {
+          "3.40.1" = {
+            version = "3.40.1";
+            pkg = self."validator-3.40.1";
+          };
+        };
+      };
+      meta = {
+        description = "Express middleware for the validator module.";
+        homepage = https://github.com/ctavan/express-validator;
+        license = "MIT";
+      };
+      production = true;
+      linkDependencies = false;
+    };
+    "lodash-3.10.0" = buildNodePackage {
+      name = "lodash";
+      version = "3.10.0";
+      src = fetchurl {
+        url = "http://registry.npmjs.org/lodash/-/lodash-3.10.0.tgz";
+        sha1 = "93d51c672828a4416a12af57220ba8a8737e2fbb";
+      };
+      meta = {
+        description = "The modern build of lodash modular utilities.";
+        homepage = https://lodash.com/;
+        license = "MIT";
+      };
+      production = true;
+      linkDependencies = false;
+    };
+    "validator-3.40.1" = buildNodePackage {
+      name = "validator";
+      version = "3.40.1";
+      src = fetchurl {
+        url = "http://registry.npmjs.org/validator/-/validator-3.40.1.tgz";
+        sha1 = "932a96be466e9e4e92592c859831bda505b7a4dc";
+      };
+      meta = {
+        description = "String validation and sanitization";
+        homepage = http://github.com/chriso/validator.js;
+        license = "MIT";
+      };
+      production = true;
+      linkDependencies = false;
+    };
+    "express-validator-2.13.x" = self."express-validator-2.13.0";
     "ejs-2.3.3" = buildNodePackage {
       name = "ejs";
       version = "2.3.3";
@@ -1146,21 +1212,6 @@ let
       production = true;
       linkDependencies = false;
     };
-    "lodash-3.10.0" = buildNodePackage {
-      name = "lodash";
-      version = "3.10.0";
-      src = fetchurl {
-        url = "http://registry.npmjs.org/lodash/-/lodash-3.10.0.tgz";
-        sha1 = "93d51c672828a4416a12af57220ba8a8737e2fbb";
-      };
-      meta = {
-        description = "The modern build of lodash modular utilities.";
-        homepage = https://lodash.com/;
-        license = "MIT";
-      };
-      production = true;
-      linkDependencies = false;
-    };
     "lodash-^3.5.0" = self."lodash-3.10.0";
     "xmlbuilder->=2.4.6" = self."xmlbuilder-2.6.4";
     "xml2js->=0.2.4" = self."xml2js-0.4.9";
@@ -1267,8 +1318,8 @@ let
         };
         type-is = {
           "~1.6.4" = {
-            version = "1.6.4";
-            pkg = self."type-is-1.6.4";
+            version = "1.6.5";
+            pkg = self."type-is-1.6.5";
           };
         };
       };

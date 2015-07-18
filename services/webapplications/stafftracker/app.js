@@ -3,6 +3,7 @@
 var path = require('path');
 var slasp = require('slasp');
 var express = require('express');
+var expressValidator = require('express-validator');
 var bodyParser = require('body-parser');
 var client = require('./client.js');
 
