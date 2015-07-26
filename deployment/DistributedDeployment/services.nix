@@ -1,6 +1,8 @@
 {distribution, system, pkgs}:
 
-let customPkgs = import ../top-level/all-packages.nix { inherit system pkgs; };
+let
+  customPkgs = import ../top-level/all-packages.nix { inherit system pkgs; };
+  portsConfiguration = if builtins.pathExists ./ports.nix then import ./ports.nix else {};
 in
 rec {
 ### Databases
@@ -35,7 +37,8 @@ rec {
       inherit rooms;
     };
     type = "process";
-    port = 3001;
+    portAssign = "shared";
+    port = portsConfiguration.ports.roomservice or 0;
   };
   
   staffservice = rec {
@@ -45,7 +48,8 @@ rec {
       inherit staff;
     };
     type = "process";
-    port = 3002;
+    portAssign = "shared";
+    port = portsConfiguration.ports.staffservice or 0;
   };
   
   zipcodeservice = rec {
@@ -55,7 +59,8 @@ rec {
       inherit zipcodes;
     };
     type = "process";
-    port = 3003;
+    portAssign = "shared";
+    port = portsConfiguration.ports.zipcodeservice or 0;
   };
 
 ### Web applications
@@ -67,7 +72,8 @@ rec {
       inherit roomservice staffservice zipcodeservice;
     };
     type = "process";
-    port = 3000;
+    port = portsConfiguration.ports.stafftracker or 0;
+    portAssign = "shared";
     baseURL = "/";
   };
 
