@@ -17,7 +17,7 @@ app.set('views', path.join(__dirname, "views"));
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // The static/ folder contains files that must be statically served
-app.use(express.static('static'));
+app.use(express.static(path.join(__dirname, 'static')));
 
 // Determine port number to listen on
 var port = process.env["PORT"] || 3000;

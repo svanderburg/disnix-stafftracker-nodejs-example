@@ -24,10 +24,10 @@ let
   # We must run semver to determine whether a provided dependency conforms to a certain version range
   semver = buildNodePackage {
     name = "semver";
-    version = "4.3.1";
+    version = "5.0.3";
     src = fetchurl {
-      url = http://registry.npmjs.org/semver/-/semver-4.3.1.tgz;
-      sha1 = "beb0129575b95f76110b29af08d370fd9eeb34bf";
+      url = http://registry.npmjs.org/semver/-/semver-5.0.3.tgz;
+      sha1 = "77466de589cd5d3c95f138aa78bc569a3cb5d27a";
     };
   } {};
   
@@ -148,6 +148,7 @@ let
       # Deploy the Node package with some tricks
       self = stdenv.lib.makeOverridable stdenv.mkDerivation {
         inherit src meta;
+        dontStrip = true;
       
         name = "node-${name}-${version}";
         buildInputs = [ nodejs python ] ++ stdenv.lib.optional (stdenv.isLinux) utillinux ++ buildInputs;
@@ -162,7 +163,7 @@ let
           cd "$out/lib/node_modules/${name}"
           
           # Patch the shebangs of the bundled modules. For "regular" dependencies
-          # this is already done by the generic builder.
+          # this is step is not required, because it has already been done by the generic builder.
           
           if [ -d node_modules ]
           then
