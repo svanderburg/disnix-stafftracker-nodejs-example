@@ -81,7 +81,7 @@ rec {
 
   nginx = {
     name = "nginx";
-    pkg = customPkgs.nginx-wrapper;
+    pkg = customPkgs.nginx-wrapper { enableCache = false; };
     dependsOn = {
       inherit stafftracker;
     };

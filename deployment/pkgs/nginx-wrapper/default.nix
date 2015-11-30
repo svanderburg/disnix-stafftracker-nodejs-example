@@ -1,4 +1,5 @@
 {stdenv, nginx}:
+{enableCache}:
 interDeps:
 
 let
@@ -40,11 +41,13 @@ stdenv.mkDerivation {
     }
     
     http {
-      ${stdenv.lib.concatMapStrings (serviceName:
-        ''
-          proxy_cache_path ${cacheDir}/${serviceName} keys_zone=${serviceName}:1024m inactive=5m max_size=1024m;
-        ''
-      ) (builtins.attrNames interDeps)}
+      ${stdenv.lib.optionalString enableCache ''
+        ${stdenv.lib.concatMapStrings (serviceName:
+          ''
+            proxy_cache_path ${cacheDir}/${serviceName} keys_zone=${serviceName}:1024m inactive=5m max_size=1024m;
+          ''
+        ) (builtins.attrNames interDeps)}
+      ''}
       
       ${stdenv.lib.concatMapStrings (serviceName:
         ''
@@ -67,10 +70,12 @@ stdenv.mkDerivation {
           ''
             location ${service.baseURL} {
               proxy_pass        http://${serviceName};
-              proxy_cache       ${serviceName};
-              proxy_cache_key   $host$uri$is_args$args;
-              proxy_cache_valid 200 5m;
-              proxy_cache_lock  on;
+              ${stdenv.lib.optionalString enableCache ''
+                proxy_cache       ${serviceName};
+                proxy_cache_key   $host$uri$is_args$args;
+                proxy_cache_valid 200 5m;
+                proxy_cache_lock  on;
+              ''}
             }
           '') (builtins.attrNames interDeps)}
       }

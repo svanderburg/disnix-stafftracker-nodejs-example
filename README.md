@@ -43,6 +43,10 @@ The system can be deployed by running the following command:
 
     $ disnix-env -s services.nix -i infrastructure.nix -d distribution.nix
 
+We can also deploy the system in which nginx caches incoming requests:
+
+    $ disnix-env -s services-with-caching.nix -i infrastructure.nix -d distribution.nix
+
 Hybrid deployment of NixOS infrastructure and services using DisnixOS
 ---------------------------------------------------------------------
 For this scenario you need to install a network of NixOS machines, running the
@@ -60,6 +64,10 @@ the underlying infrastructure.
 
     $ disnixos-env -s services.nix -n network.nix -d distribution.nix
 
+The variant with caching enabled can be deployed as follows:
+
+    $ disnixos-env -s services-with-caching.nix -n network.nix -d distribution.nix
+
 Deployment using the NixOS test driver
 --------------------------------------
 This system can be deployed without adapting any of the models in
@@ -67,6 +75,10 @@ This system can be deployed without adapting any of the models in
 variant without the proxy can be deployed in a network of virtual machines:
 
     $ disnixos-vm-env -s services.nix -n network.nix -d distribution.nix
+
+The variant with caching enabled can be deployed as follows:
+
+    $ disnixos-vm-env -s services-with-caching.nix -n network.nix -d distribution.nix
 
 Deployment using NixOps for infrastructure and Disnix for service deployment
 ----------------------------------------------------------------------------
@@ -82,6 +94,11 @@ The services can be deployed by running the following commands:
 
     $ export NIXOPS_DEPLOYMENT=vboxtest
     $ disnixos-env -s services.nix -n network.nix -d distribution.nix --use-nixops
+
+The variant with caching enabled can be deployed as follows:
+
+    $ export NIXOPS_DEPLOYMENT=vboxtest
+    $ disnixos-env -s services-with-caching.nix -n network.nix -d distribution.nix --use-nixops
 
 Running the system
 ==================
