@@ -26,5 +26,10 @@ stdenv.mkDerivation {
     container_username=stafftracker
     container_group=stafftracker
     EOF
+    
+    # Restart the job when it accidentally terminates
+    cat > $out/etc/systemd-config <<EOF
+    Restart=always
+    EOF
   '';
 }

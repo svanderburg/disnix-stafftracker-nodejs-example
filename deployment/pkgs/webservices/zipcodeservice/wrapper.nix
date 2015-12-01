@@ -20,5 +20,10 @@ stdenv.mkDerivation {
     container_username=zipcodeservice
     container_group=zipcodeervice
     EOF
+    
+    # Restart the job when it accidentally terminates
+    cat > $out/etc/systemd-config <<EOF
+    Restart=always
+    EOF
   '';
 }
