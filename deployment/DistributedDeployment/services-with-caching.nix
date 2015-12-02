@@ -1,8 +1,8 @@
-{distribution, system, pkgs}:
+{distribution, invDistribution, system, pkgs}:
 
 let
   services = import ./services.nix {
-    inherit distribution system pkgs;
+    inherit distribution invDistribution system pkgs;
   };
   customPkgs = import ../top-level/all-packages.nix { inherit system pkgs; };
 in
