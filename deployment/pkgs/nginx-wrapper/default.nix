@@ -44,7 +44,7 @@ stdenv.mkDerivation {
       ${stdenv.lib.optionalString enableCache ''
         ${stdenv.lib.concatMapStrings (serviceName:
           ''
-            proxy_cache_path ${cacheDir}/${serviceName} keys_zone=${serviceName}:1024m inactive=5m max_size=1024m;
+            proxy_cache_path ${cacheDir}/${serviceName} keys_zone=${serviceName}:8m inactive=5m max_size=128m;
           ''
         ) (builtins.attrNames interDeps)}
       ''}
