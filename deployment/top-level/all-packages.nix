@@ -16,19 +16,19 @@ let
 
     roomservice = (import ../../services/webservices/roomservice {
       inherit system pkgs;
-    }).build;
+    }).package;
     
     roomservicewrapper = callPackage ../pkgs/webservices/roomservice/wrapper.nix { };
     
     staffservice = (import ../../services/webservices/staffservice {
       inherit system pkgs;
-    }).build;
+    }).package;
     
     staffservicewrapper = callPackage ../pkgs/webservices/staffservice/wrapper.nix { };
     
     zipcodeservice = (import ../../services/webservices/zipcodeservice {
       inherit system pkgs;
-    }).build;
+    }).package;
     
     zipcodeservicewrapper = callPackage ../pkgs/webservices/zipcodeservice/wrapper.nix { };
     
@@ -36,7 +36,7 @@ let
 
     stafftracker = (import ../../services/webapplications/stafftracker {
       inherit system pkgs;
-    }).build;
+    }).package;
     
     stafftrackerwrapper = callPackage ../pkgs/webapplications/stafftracker/wrapper.nix { };
 

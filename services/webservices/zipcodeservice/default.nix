@@ -1,23 +1,13 @@
-{system ? builtins.currentSystem, pkgs ? import <nixpkgs> {
+{pkgs ? import <nixpkgs> {
     inherit system;
-  }, overrides ? {}}:
+  }, system ? builtins.currentSystem}:
 
 let
-  nodeEnv = import ./node-env.nix {
-    inherit (pkgs) stdenv fetchurl nodejs python utillinux runCommand;
+  nodeEnv = import ../../node-env.nix {
+    inherit (pkgs) stdenv python utillinux runCommand writeTextFile nodejs;
   };
-  registry = (import ./registry.nix {
-    inherit (nodeEnv) buildNodePackage;
-    inherit (pkgs) fetchurl fetchgit;
-    self = registry;
-  }) // overrides;
 in
-{
-  inherit registry;
-  tarball = nodeEnv.buildNodeSourceDist {
-    name = "zipcodeservice";
-    version = "0.0.1";
-    src = ./.;
-  };
-  build = registry."zipcodeservice-0.0.1" {};
+import ./node-packages.nix {
+  inherit (pkgs) fetchurl fetchgit;
+  inherit nodeEnv;
 }
