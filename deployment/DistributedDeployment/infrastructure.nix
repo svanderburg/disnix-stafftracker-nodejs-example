@@ -1,9 +1,13 @@
 {
   test1 = {
-    hostname = "test1";
+    properties = {
+      hostname = "test1";
+    };
   };
   
   test2 = {
-    hostname = "test2";
+    properties = {
+      hostname = "test2";
+    };
   };
 }

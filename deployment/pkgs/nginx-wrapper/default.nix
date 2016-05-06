@@ -57,7 +57,7 @@ stdenv.mkDerivation {
               service = builtins.getAttr serviceName interDeps;
               targets = service.targets;
             in
-            stdenv.lib.concatMapStrings (target: "server ${target.hostname}:${toString service.port};\n") targets}
+            stdenv.lib.concatMapStrings (target: "server ${target.properties.hostname}:${toString service.port};\n") targets}
           }
         ''
       ) (builtins.attrNames interDeps)}
