@@ -11,7 +11,8 @@ var app = express();
 // Use the express validator middleware
 app.use(expressValidator());
 
-var url = process.env["ZIPCODESDB_URL"] || 'mongodb://localhost:27017/zipcodes';
+var url = process.env["ZIPCODESDB_URL"] || 'mongodb://localhost:27017';
+var database = process.env["ZIPCODESDB_NAME"] || "zipcodes";
 var port = process.env["PORT"] || 3002;
 
 // REST API URL routes
@@ -24,8 +25,8 @@ app.get('/zipcodes', function(req, res) {
             MongoClient.connect(url, callback);
         },
         
-        function(callback, _db) {
-            db = _db;
+        function(callback, client) {
+            db = client.db(database);
             db.collection('zipcodes').find({}).toArray(callback);
         }
         
@@ -60,8 +61,8 @@ app.get('/zipcodes/:zipcode', function(req, res) {
                 MongoClient.connect(url, callback);
             },
             
-            function(callback, _db) {
-                db = _db;
+            function(callback, client) {
+                db = client.db(database);
                 db.collection('zipcodes').find({ zipcode: zipcode }).toArray(callback);
             }
             

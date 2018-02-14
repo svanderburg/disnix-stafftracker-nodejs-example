@@ -7,7 +7,7 @@ var roomServiceURL = process.env.ROOMSERVICE_URL || "http://localhost:3001";
 
 function fetchAllStaff(callback) {
     client.get(staffServiceURL+"/staff", function(data, response) {
-        callback(null, JSON.parse(data));
+        callback(null, data);
     });
 }
 
@@ -15,7 +15,7 @@ exports.fetchAllStaff = fetchAllStaff;
 
 function findStaffMember(id, callback) {
     client.get(staffServiceURL+"/staff/"+encodeURIComponent(id), function(data, response) {
-        callback(null, JSON.parse(data));
+        callback(null, data);
     });
 }
 
@@ -65,7 +65,7 @@ exports.fetchAllZipcodes = fetchAllZipcodes;
 
 function findZipcode(id, callback) {
     client.get(zipcodeServiceURL+"/zipcodes/"+encodeURIComponent(id), function(data, response) {
-        callback(null, JSON.parse(data));
+        callback(null, data);
     });
 }
 
@@ -73,7 +73,7 @@ exports.findZipcode = findZipcode;
 
 function fetchAllRooms(callback) {
     client.get(roomServiceURL+"/rooms", function(data, response) {
-        callback(null, JSON.parse(data));
+        callback(null, data);
     });
 }
 
@@ -81,7 +81,7 @@ exports.fetchAllRooms = fetchAllRooms;
 
 function findRoom(id, callback) {
     client.get(roomServiceURL+"/rooms/"+encodeURIComponent(id), function(data, response) {
-        callback(null, JSON.parse(data));
+        callback(null, data);
     });
 }
 

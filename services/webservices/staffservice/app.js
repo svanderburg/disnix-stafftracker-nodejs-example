@@ -15,7 +15,8 @@ app.use(bodyParser.json({ type: 'application/json' }));
 // Use the express validator middleware
 app.use(expressValidator());
 
-var url = process.env["STAFFDB_URL"] || 'mongodb://localhost:27017/staff';
+var url = process.env["STAFFDB_URL"] || 'mongodb://localhost:27017';
+var database = process.env["STAFFDB_NAME"] || "staff";
 var port = process.env["PORT"] || 3003;
 
 // REST API URL routes
@@ -28,8 +29,8 @@ app.get('/staff', function(req, res) {
             MongoClient.connect(url, callback);
         },
         
-        function(callback, _db) {
-            db = _db;
+        function(callback, client) {
+            db = client.db(database);
             db.collection('staff').find({}).toArray(callback);
         }
         
@@ -47,7 +48,7 @@ app.get('/staff', function(req, res) {
 });
 
 app.get('/staff/:id', function(req, res) {
-        // Check parameters
+    // Check parameters
     req.checkParams('id', 'Invalid identifier').notEmpty();
     
     var errors = req.validationErrors();
@@ -63,8 +64,8 @@ app.get('/staff/:id', function(req, res) {
                 MongoClient.connect(url, callback);
             },
             
-            function(callback, _db) {
-                db = _db;
+            function(callback, client) {
+                db = client.db(database);
                 db.collection('staff').find({ _id: ObjectId(id) }).toArray(callback);
             }
             
@@ -94,8 +95,8 @@ app.post('/staff', function(req, res) {
             MongoClient.connect(url, callback);
         },
         
-        function(callback, _db) {
-            db = _db;
+        function(callback, client) {
+            db = client.db(database);
             db.collection('staff').insert({
                 name: req.body.name,
                 lastName: req.body.lastName,
@@ -133,8 +134,8 @@ app.put('/staff/:id', function(req, res) {
                 MongoClient.connect(url, callback);
             },
             
-            function(callback, _db) {
-                db = _db;
+            function(callback, client) {
+                db = client.db(database);
                 db.collection('staff').update({ _id: ObjectId(id) }, { $set: {
                     name: req.body.name,
                     lastName: req.body.lastName,
@@ -177,8 +178,8 @@ app.delete('/staff/:id', function(req, res) {
                 MongoClient.connect(url, callback);
             },
             
-            function(callback, _db) {
-                db = _db;
+            function(callback, client) {
+                db = client.db(database);
                 db.collection('staff').remove({ _id: ObjectId(id) }, callback);
             }
         ], function(err, result) {

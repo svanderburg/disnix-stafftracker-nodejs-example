@@ -8,7 +8,8 @@ stdenv.mkDerivation {
     mkdir -p $out/bin
     cat > $out/bin/run-roomservice <<EOF
     #! ${stdenv.shell} -e
-    export ROOMSDB_URL=mongodb://${rooms.target.properties.hostname}/${rooms.name} # Configure the URL of the Mongo database using inter-dependency parameters
+    export ROOMSDB_URL=mongodb://${rooms.target.properties.hostname} # Configure the URL of the Mongo database using inter-dependency parameters
+    export ROOMSDB_NAME="${rooms.name}"
     export PORT=${toString port}
     ${roomservice}/bin/roomservice
     EOF

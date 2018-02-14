@@ -11,7 +11,8 @@ var app = express();
 // Use the express validator middleware
 app.use(expressValidator());
 
-var url = process.env["ROOMSDB_URL"] || 'mongodb://localhost:27017/rooms';
+var url = process.env["ROOMSDB_URL"] || 'mongodb://localhost:27017';
+var database = process.env["ROOMSDB_NAME"] || "rooms"
 var port = process.env['PORT'] || 3001;
 
 // REST API URL routes
@@ -24,8 +25,8 @@ app.get('/rooms', function(req, res) {
             MongoClient.connect(url, callback);
         },
         
-        function(callback, _db) {
-            db = _db;
+        function(callback, client) {
+            db = client.db(database);
             db.collection('rooms').find({}).toArray(callback);
         }
         
@@ -60,8 +61,8 @@ app.get('/rooms/:room', function(req, res) {
                 MongoClient.connect(url, callback);
             },
             
-            function(callback, _db) {
-                db = _db;
+            function(callback, client) {
+                db = client.db(database);
                 db.collection('rooms').find({ room: room }).toArray(callback);
             }
             
