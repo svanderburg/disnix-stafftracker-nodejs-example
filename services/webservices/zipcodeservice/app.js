@@ -1,42 +1,39 @@
 #!/usr/bin/env node
 
-var slasp = require('slasp');
-var express = require('express');
-var expressValidator = require('express-validator');
-var MongoClient = require('mongodb').MongoClient;
-var ObjectId = require('mongodb').ObjectId;
+const slasp = require('slasp');
+const express = require('express');
+const { check, validationResult } = require('express-validator');
+const MongoClient = require('mongodb').MongoClient;
+const ObjectId = require('mongodb').ObjectId;
 
-var app = express();
+const app = express();
 
-// Use the express validator middleware
-app.use(expressValidator());
-
-var url = process.env["ZIPCODESDB_URL"] || 'mongodb://localhost:27017';
-var database = process.env["ZIPCODESDB_NAME"] || "zipcodes";
-var port = process.env["PORT"] || 3002;
+const url = process.env["ZIPCODESDB_URL"] || 'mongodb://localhost:27017';
+const database = process.env["ZIPCODESDB_NAME"] || "zipcodes";
+const port = process.env["PORT"] || 3002;
 
 // REST API URL routes
 
 app.get('/zipcodes', function(req, res) {
-    var db;
-    
+    let db;
+
     slasp.sequence([
         function(callback) {
             MongoClient.connect(url, callback);
         },
-        
+
         function(callback, client) {
             db = client.db(database);
             db.collection('zipcodes').find({}).toArray(callback);
         }
-        
+
     ], function(err, zipcodes) {
         if(err) {
             res.status(500).send(err);
         } else {
             res.send(zipcodes);
         }
-        
+
         if(!db) {
             db.close();
         }
@@ -45,27 +42,24 @@ app.get('/zipcodes', function(req, res) {
 
 app.get('/zipcodes/:zipcode', function(req, res) {
     // Check parameters
-    req.checkParams('zipcode', 'Invalid zipcode identifier').notEmpty();
-    
-    var errors = req.validationErrors();
-    
-    if(errors) {
-        res.status(400).send(errors);
-    } else {
+    check('zipcode', 'Invalid zipcode identifier').isLength({ min: 1 });
+
+    const errors = validationResult(req);
+
+    if(errors.isEmpty()) {
         // Query the data
-        var zipcode = req.params.zipcode;
-        var db;
-        
+        let db;
+
         slasp.sequence([
             function(callback) {
                 MongoClient.connect(url, callback);
             },
-            
+
             function(callback, client) {
                 db = client.db(database);
-                db.collection('zipcodes').find({ zipcode: zipcode }).toArray(callback);
+                db.collection('zipcodes').find({ zipcode: req.params.zipcode }).toArray(callback);
             }
-            
+
         ], function(err, zipcodes) {
             if(err) {
                 res.status(500).send(err);
@@ -76,11 +70,13 @@ app.get('/zipcodes/:zipcode', function(req, res) {
                     res.status(404).send("Cannot find zipcode!");
                 }
             }
-            
+
             if(!db) {
                 db.close();
             }
         });
+    } else {
+        res.status(400).send(errors);
     }
 });
 

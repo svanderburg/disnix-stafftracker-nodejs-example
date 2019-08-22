@@ -34,7 +34,7 @@ function updateStaffMember(id, staffMember, callback) {
         data: staffMember,
         headers: { "Content-Type": "application/json" }
     };
-    
+
     client.put(staffServiceURL+"/staff/"+encodeURIComponent(id), args, function(data, response) {
         callback(null);
     });
@@ -47,7 +47,7 @@ function insertStaffMember(staffMember, callback) {
         data: staffMember,
         headers: { "Content-Type": "application/json" }
     };
-    
+
     client.post(staffServiceURL+"/staff", args, function(data, response) {
         callback(null);
     });

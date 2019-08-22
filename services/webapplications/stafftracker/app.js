@@ -1,13 +1,13 @@
 #!/usr/bin/env node
 
-var path = require('path');
-var slasp = require('slasp');
-var express = require('express');
-var expressValidator = require('express-validator');
-var bodyParser = require('body-parser');
-var client = require('./client.js');
+const path = require('path');
+const slasp = require('slasp');
+const express = require('express');
+const { check, validationResult } = require('express-validator');
+const bodyParser = require('body-parser');
+const client = require('./client.js');
 
-var app = express();
+const app = express();
 
 // Configure express to use ejs as template engine
 app.set('view engine', 'ejs');
@@ -20,7 +20,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'static')));
 
 // Determine port number to listen on
-var port = process.env["PORT"] || 3000;
+const port = process.env["PORT"] || 3000;
 
 // Dynamic URL routes
 
@@ -35,18 +35,18 @@ app.get('/', function(req, res) {
 });
 
 app.get('/displaystaff/:id', function(req, res) {
-    var staffMember;
-    
+    let staffMember;
+
     slasp.sequence([
         function(callback) {
             client.findStaffMember(req.params.id, callback);
         },
-        
+
         function(callback, _staffMember) {
             staffMember = _staffMember;
             client.findRoom(staffMember.room, callback);
         },
-        
+
         function(callback, room) {
             client.findZipcode(room.zipcode, callback);
         }
@@ -75,13 +75,13 @@ app.get('/editstaff', function(req, res) {
 });
 
 app.get('/editstaff/:id', function(req, res) {
-    var staffMember;
-    
+    let staffMember;
+
     slasp.sequence([
         function(callback) {
             client.findStaffMember(req.params.id, callback);
         },
-        
+
         function(callback, _staffMember) {
             staffMember = _staffMember;
             client.fetchAllRooms(callback);
@@ -99,12 +99,10 @@ app.get('/editstaff/:id', function(req, res) {
 });
 
 app.get('/modifystaff', function(req, res) {
-    var action = req.query.action;
-    
+    const action = req.query.action;
+
     if(action == "delete") {
-        var id = req.query.id;
-        
-        client.deleteStaffMember(id, function(err) {
+        client.deleteStaffMember(req.query.id, function(err) {
             if(err) {
                 res.status(404).send("Cannot delete staff member: "+err);
             } else {
@@ -117,15 +115,15 @@ app.get('/modifystaff', function(req, res) {
 });
 
 app.post('/modifystaff', function(req, res) {
-    var action = req.body.action;
-    
-    var staffMember = {
+    const action = req.body.action;
+
+    const staffMember = {
         name: req.body.name,
         lastName: req.body.lastName,
         room: req.body.room,
         ipAddress: req.body.ipAddress
     };
-    
+
     if(action == "insert") {
         client.insertStaffMember(staffMember, function(err) {
             if(err) {

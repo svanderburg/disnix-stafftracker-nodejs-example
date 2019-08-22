@@ -8,10 +8,10 @@
   "dependencies": {
     "slasp": "0.0.4",
     "express": "4.x.x",
-    "express-validator": "5.0.x",
-    "ejs": "2.5.x",
+    "express-validator": "6.1.x",
+    "ejs": "2.6.x",
     "node-rest-client": "3.1.x",
-    "body-parser": "1.18.x"
+    "body-parser": "1.19.x"
   },
   "bin": {
     "stafftracker": "app.js"
