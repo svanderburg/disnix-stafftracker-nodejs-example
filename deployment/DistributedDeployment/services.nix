@@ -19,6 +19,7 @@ rec {
     pkg = customPkgs.staff;
     dependsOn = {};
     type = "mongo-database";
+    deployState = true;
   };
   
   zipcodes = {

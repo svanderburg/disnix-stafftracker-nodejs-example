@@ -7,8 +7,8 @@
   "private": true,
   "dependencies": {
     "express": "4.x.x",
-    "express-validator": "6.1.x",
-    "mongodb": "3.3.x",
+    "express-validator": "6.4.x",
+    "mongodb": "3.5.x",
     "slasp": "0.0.4",
     "body-parser": "1.19.x"
   },
