@@ -1,4 +1,4 @@
-{stdenv, zipcodeservice}:
+/*{stdenv, zipcodeservice}:
 {port}:
 {zipcodes}:
 
@@ -27,4 +27,44 @@ stdenv.mkDerivation {
     Restart=always
     EOF
   '';
+}*/
+
+{createManagedProcess, zipcodeservice}:
+{port, instanceSuffix ? ""}:
+{zipcodes}:
+
+let
+  instanceName = "zipcodeservice${instanceSuffix}";
+in
+createManagedProcess {
+  name = instanceName;
+  description = "Zipcodes REST API";
+  foregroundProcess = "${zipcodeservice}/lib/node_modules/zipcodeservice/app.js";
+  environment = {
+    ZIPCODESDB_URL = "mongodb://${zipcodes.target.properties.hostname}";
+    ZIPCODESDB_NAME = zipcodes.name;
+    PORT = port;
+  };
+  user = instanceName;
+
+  credentials = {
+    groups = {
+      "${instanceName}" = {};
+    };
+    users = {
+      "${instanceName}" = {
+        group = instanceName;
+        description = "Zipcodes API user";
+      };
+    };
+  };
+
+  overrides = {
+    sysvinit = {
+      runlevels = [ 3 4 5 ];
+    };
+    systemd = {
+      Service.Restart = "always";
+    };
+  };
 }
