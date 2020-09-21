@@ -9,8 +9,10 @@
 }:
 
 let
+  ids = if builtins.pathExists ./ids.nix then (import ./ids.nix).ids else {};
+
   customPkgs = import ../top-level/all-packages.nix {
-    inherit system pkgs stateDir logDir runtimeDir tmpDir forceDisableUserChange processManager;
+    inherit system pkgs stateDir logDir runtimeDir tmpDir forceDisableUserChange processManager ids;
   };
 
   sharedConstructors = import ../../../nix-processmgmt/examples/services-agnostic/constructors.nix {
@@ -20,8 +22,6 @@ let
   processType = import ../../../nix-processmgmt/nixproc/derive-dysnomia-process-type.nix {
     inherit processManager;
   };
-
-  portsConfiguration = if builtins.pathExists ./ports.nix then import ./ports.nix else {};
 in
 rec {
 ### Databases
@@ -52,49 +52,49 @@ rec {
 
   roomservice = rec {
     name = "roomservice";
+    port = ids.ports.roomservice or 0;
     pkg = customPkgs.roomservicewrapper { inherit port; };
     dependsOn = {
       inherit rooms;
     };
     type = processType;
-    portAssign = "shared";
-    port = portsConfiguration.ports.roomservice or 0;
+    requiresUniqueIdsFor = [ "ports" "uids" "gids" ];
   };
 
   staffservice = rec {
     name = "staffservice";
+    port = ids.ports.staffservice or 0;
     pkg = customPkgs.staffservicewrapper { inherit port; };
     dependsOn = {
       inherit staff;
     };
     type = processType;
-    portAssign = "shared";
-    port = portsConfiguration.ports.staffservice or 0;
+    requiresUniqueIdsFor = [ "ports" "uids" "gids" ];
   };
 
   zipcodeservice = rec {
     name = "zipcodeservice";
+    port = ids.ports.zipcodeservice or 0;
     pkg = customPkgs.zipcodeservicewrapper { inherit port; };
     dependsOn = {
       inherit zipcodes;
     };
     type = processType;
-    portAssign = "shared";
-    port = portsConfiguration.ports.zipcodeservice or 0;
+    requiresUniqueIdsFor = [ "ports" "uids" "gids" ];
   };
 
 ### Web applications
 
   stafftracker = rec {
     name = "stafftracker";
+    port = ids.ports.stafftracker or 0;
     pkg = customPkgs.stafftrackerwrapper { inherit port; };
     dependsOn = {
       inherit roomservice staffservice zipcodeservice;
     };
     type = processType;
-    port = portsConfiguration.ports.stafftracker or 0;
-    portAssign = "shared";
     baseURL = "/";
+    requiresUniqueIdsFor = [ "ports" "uids" "gids" ];
   };
 
 ### Reverse proxy
