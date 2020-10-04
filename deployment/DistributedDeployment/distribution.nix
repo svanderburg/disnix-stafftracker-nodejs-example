@@ -8,5 +8,5 @@
   stafftracker = [ infrastructure.test1 ];
   zipcodes = [ infrastructure.test2 ];
   zipcodeservice = [ infrastructure.test1 ];
-  nginx = [ infrastructure.test2 ];
+  nginx = [ infrastructure.test1 ];
 }

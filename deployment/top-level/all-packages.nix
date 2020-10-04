@@ -6,10 +6,11 @@
 , forceDisableUserChange
 , processManager
 , ids ? {}
+, nix-processmgmt
 }:
 
 let
-  createManagedProcess = import ../../../nix-processmgmt/nixproc/create-managed-process/agnostic/create-managed-process-universal.nix {
+  createManagedProcess = import "${nix-processmgmt}/nixproc/create-managed-process/agnostic/create-managed-process-universal.nix" {
     inherit pkgs stateDir runtimeDir logDir tmpDir forceDisableUserChange processManager ids;
   };
 
@@ -59,10 +60,6 @@ let
     stafftrackerwrapper = callPackage ../pkgs/webapplications/stafftracker/wrapper.nix {
       inherit createManagedProcess;
     };
-
-### Reverse proxy
-
-    #nginx-wrapper = callPackage ../pkgs/nginx-wrapper/default.nix { };
   };
 in
 self

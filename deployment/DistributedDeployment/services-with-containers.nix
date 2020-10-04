@@ -6,7 +6,8 @@
 , tmpDir ? (if stateDir == "/var" then "/tmp" else "${stateDir}/tmp")
 , forceDisableUserChange ? false
 , processManager ? "systemd"
-}:
+, nix-processmgmt ? ../../../nix-processmgmt
+}@args:
 
 let
   pkgs = import <nixpkgs> {
@@ -14,17 +15,15 @@ let
     config = { allowUnfree = true; }; # MongoDB is SSPL licensed which is not approved by the OSI and FSF
   };
 
-  processType = import ../../../nix-processmgmt/nixproc/derive-dysnomia-process-type.nix {
+  processType = import "${nix-processmgmt}/nixproc/derive-dysnomia-process-type.nix" {
     inherit processManager;
   };
 
-  constructors = import ../../../nix-processmgmt/examples/service-containers-agnostic/constructors.nix {
-    inherit pkgs stateDir runtimeDir logDir cacheDir tmpDir forceDisableUserChange processManager;
+  constructors = import "${nix-processmgmt}/examples/service-containers-agnostic/constructors.nix" {
+    inherit pkgs stateDir runtimeDir logDir cacheDir tmpDir forceDisableUserChange processManager nix-processmgmt;
   };
 
-  applicationServices = import ./services.nix {
-    inherit pkgs system distribution invDistribution;
-  };
+  applicationServices = import ./services.nix args;
 in
 rec {
   mongodb = constructors.simpleMongodb {

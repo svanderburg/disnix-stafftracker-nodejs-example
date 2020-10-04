@@ -6,14 +6,13 @@
 , cacheDir ? "${stateDir}/cache"
 , forceDisableUserChange ? false
 , processManager ? "systemd"
-}:
+, nix-processmgmt ? ../../../nix-processmgmt
+}@args:
 
 let
-  services = import ./services.nix {
-    inherit distribution invDistribution system pkgs;
-  };
+  services = import ./services.nix args;
 
-  sharedConstructors = import ../../../nix-processmgmt/examples/services-agnostic/constructors.nix {
+  sharedConstructors = import "${nix-processmgmt}/examples/services-agnostic/constructors.nix" {
     inherit pkgs stateDir logDir runtimeDir tmpDir cacheDir forceDisableUserChange processManager;
   };
 in
