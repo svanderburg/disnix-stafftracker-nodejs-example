@@ -20,7 +20,7 @@ let
   };
 
   constructors = import "${nix-processmgmt}/examples/service-containers-agnostic/constructors.nix" {
-    inherit pkgs stateDir runtimeDir logDir cacheDir tmpDir forceDisableUserChange processManager nix-processmgmt;
+    inherit pkgs stateDir runtimeDir logDir cacheDir tmpDir forceDisableUserChange processManager;
   };
 
   applicationServices = import ./services.nix args;

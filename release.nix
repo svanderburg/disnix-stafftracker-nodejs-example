@@ -59,6 +59,23 @@ let
             distributionFile = "deployment/DistributedDeployment/distribution.nix";
           }
         );
+
+        with_containers = pkgs.lib.genAttrs systems (system:
+          let
+            pkgs = import nixpkgs { inherit system; };
+
+            disnixos = import "${pkgs.disnixos}/share/disnixos/testing.nix" {
+              inherit nixpkgs system;
+          };
+          in
+          disnixos.buildManifest {
+            name = "disnix-stafftracker-nodejs-example";
+            inherit tarball version extraParams;
+            servicesFile = "deployment/DistributedDeployment/services-with-containers.nix";
+            networkFile = "deployment/DistributedDeployment/network-bare.nix";
+            distributionFile = "deployment/DistributedDeployment/distribution-with-containers.nix";
+          }
+        );
       };
 
     tests =
@@ -95,6 +112,13 @@ let
           inherit tarball testScript;
           manifest = builtins.getAttr (builtins.currentSystem) (build.with_caching);
           networkFile = "deployment/DistributedDeployment/network.nix";
+        };
+
+        with_containers = disnixos.disnixTest {
+          name = "disnix-stafftracker-nodejs-example-tests";
+          inherit tarball testScript;
+          manifest = builtins.getAttr (builtins.currentSystem) (build.with_containers);
+          networkFile = "deployment/DistributedDeployment/network-bare.nix";
         };
       };
   };
