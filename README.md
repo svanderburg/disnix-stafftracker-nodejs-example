@@ -2,7 +2,7 @@ disnix-stafftracker-nodejs-example
 ==================================
 This is an example case representing a system to manage staff of a university
 department. The system uses data stored in several databases. For each database,
-a REST interface is provided to retrieve and update records. A webapplication
+a REST interface is provided to retrieve and update records. A web application
 front-end is provided for end-users to retrieve and edit staff members.
 
 Architecture
@@ -26,8 +26,17 @@ The `deployment/DistributedDeployment` sub folder contains all neccessary Disnix
 models, such as a services, infrastructure and distribution models required for
 deployment.
 
-Deployment using Disnix in a heterogeneous network
---------------------------------------------------
+The models come in two variants:
+* The standard variant, e.g. `services.nix`, `infrastructure.nix` and
+  `distribution.nix` can be used to deploy services to a network of machines
+  that already provide pre-deployed container services, e.g. MongoDB
+* The self-contained variant, e.g. `services-with-containers.nix`,
+  `distribution-with-containers.nix` deploy both the application services and
+  their underlying container services, e.g. MongoDB, using the experimental
+  [Nix process management framework](https://github.com/svanderburg/nix-processmgmt)
+
+Deployment using Disnix to a predeployed network of container services
+----------------------------------------------------------------------
 For this scenario only installation of the basic Disnix toolset is required.
 First, you must manually install a network of machines running the Disnix service.
 Then you must adapt the infrastructure model to match to properties of your
@@ -41,32 +50,28 @@ the corresponding modules to use them.
 
 The system can be deployed by running the following command:
 
-    $ disnix-env -s services.nix -i infrastructure.nix -d distribution.nix
+```bash
+$ disnix-env -s services.nix -i infrastructure.nix -d distribution.nix
+```
 
-We can also deploy the system in which nginx caches incoming requests:
+We can also deploy the system in which Nginx caches incoming requests:
 
-    $ disnix-env -s services-with-caching.nix -i infrastructure.nix -d distribution.nix
+```bash
+$ disnix-env -s services-with-caching.nix -i infrastructure.nix -d distribution.nix
+```
 
-Hybrid deployment of NixOS infrastructure and services using DisnixOS
----------------------------------------------------------------------
-For this scenario you need to install a network of NixOS machines, running the
-Disnix service. This can be done by enabling the following configuration
-option in each `/etc/nixos/configuration.nix` file:
+Deployment of the self-contained example with Disnix
+----------------------------------------------------
+It is also possible to deploy the self-contained example with the basic Disnix
+toolset:
 
-    services.disnix.enable = true;
+```bash
+$ disnix-env -s services-with-containers.nix -i infrastructure.nix -d distribution-with-containers.nix
+```
 
-You may also need to adapt the NixOS configurations to which the `network.nix`
-model is referring, so that they will match the actual system configurations.
-
-The system including its underlying infrastructure can be deployed by using the
-`disnixos-env` command. The following instruction deploys the system including
-the underlying infrastructure.
-
-    $ disnixos-env -s services.nix -n network.nix -d distribution.nix
-
-The variant with caching enabled can be deployed as follows:
-
-    $ disnixos-env -s services-with-caching.nix -n network.nix -d distribution.nix
+To make the above example work, a network of machines that have the Disnix
+service installed are required with a `infrastructure.nix` model providing their
+connectivity settings.
 
 Deployment using the NixOS test driver
 --------------------------------------
@@ -74,11 +79,22 @@ This system can be deployed without adapting any of the models in
 `deployment/DistributedDeployment`. By running the following instruction, the
 variant without the proxy can be deployed in a network of virtual machines:
 
-    $ disnixos-vm-env -s services.nix -n network.nix -d distribution.nix
+```bash
+$ disnixos-vm-env -s services.nix -n network.nix -d distribution.nix
+```
 
 The variant with caching enabled can be deployed as follows:
 
-    $ disnixos-vm-env -s services-with-caching.nix -n network.nix -d distribution.nix
+```bash
+$ disnixos-vm-env -s services-with-caching.nix -n network.nix -d distribution.nix
+```
+
+We can deploy the self-contained example (that also includes the container
+services) with:
+
+```bash
+$ disnixos-vm-env -s services-with-containers.nix -n network.nix -d distribution-with-containers.nix
+```
 
 Deployment using NixOps for infrastructure and Disnix for service deployment
 ----------------------------------------------------------------------------
@@ -87,18 +103,31 @@ let Disnix do the deployment of the services to these machines.
 
 A virtualbox network can be deployed as follows:
 
-    $ nixops create ./network.nix ./network-virtualbox.nix -d vboxtest
-    $ nixops deploy -d vboxtest
+```bash
+$ nixops create ./network.nix ./network-virtualbox.nix -d vboxtest
+$ nixops deploy -d vboxtest
+```
 
 The services can be deployed by running the following commands:
 
-    $ export NIXOPS_DEPLOYMENT=vboxtest
-    $ disnixos-env -s services.nix -n network.nix -d distribution.nix --use-nixops
+```bash
+$ export NIXOPS_DEPLOYMENT=vboxtest
+$ disnixos-env -s services.nix -n network.nix -d distribution.nix --use-nixops
+```
 
 The variant with caching enabled can be deployed as follows:
 
-    $ export NIXOPS_DEPLOYMENT=vboxtest
-    $ disnixos-env -s services-with-caching.nix -n network.nix -d distribution.nix --use-nixops
+```bash
+$ export NIXOPS_DEPLOYMENT=vboxtest
+$ disnixos-env -s services-with-caching.nix -n network.nix -d distribution.nix --use-nixops
+```
+
+The variant with container services included can be deployed with:
+
+```bash
+$ export NIXOPS_DEPLOYMENT=vboxtest
+$ disnixos-env -s services-with-containers.nix -n network.nix -d distribution.nix --use-nixops
+```
 
 Running the system
 ==================
