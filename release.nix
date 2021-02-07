@@ -1,6 +1,7 @@
 { nixpkgs ? <nixpkgs>
 , disnix_stafftracker_nodejs_example ? {outPath = ./.; rev = 1234;}
 , nix-processmgmt ? { outPath = ../nix-processmgmt; rev = 1234; }
+, nix-processmgmt-services ? { outPath = ../nix-processmgmt-services; rev = 1234; }
 , officialRelease ? false
 , systems ? [ "i686-linux" "x86_64-linux" ]
 }:
@@ -23,7 +24,7 @@ let
 
     build =
       let
-        extraParams = { inherit nix-processmgmt; };
+        extraParams = { inherit nix-processmgmt nix-processmgmt-services; };
       in
       {
         without_caching = pkgs.lib.genAttrs systems (system:

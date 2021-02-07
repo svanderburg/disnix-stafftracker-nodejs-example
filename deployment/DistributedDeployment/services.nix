@@ -7,6 +7,7 @@
 , forceDisableUserChange ? false
 , processManager ? "systemd"
 , nix-processmgmt ? ../../../nix-processmgmt
+, nix-processmgmt-services ? ../../../nix-processmgmt-services
 }:
 
 let
@@ -16,8 +17,8 @@ let
     inherit system pkgs stateDir logDir runtimeDir tmpDir forceDisableUserChange processManager ids nix-processmgmt;
   };
 
-  sharedConstructors = import "${nix-processmgmt}/examples/services-agnostic/constructors.nix" {
-    inherit pkgs stateDir logDir runtimeDir tmpDir cacheDir forceDisableUserChange processManager;
+  sharedConstructors = import "${nix-processmgmt-services}/services-agnostic/constructors.nix" {
+    inherit nix-processmgmt pkgs stateDir logDir runtimeDir tmpDir cacheDir forceDisableUserChange processManager;
   };
 
   processType = import "${nix-processmgmt}/nixproc/derive-dysnomia-process-type.nix" {
