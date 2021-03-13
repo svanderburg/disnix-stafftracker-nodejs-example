@@ -1,12 +1,10 @@
 {createManagedProcess, zipcodeservice}:
-{port, instanceSuffix ? ""}:
+{port, instanceSuffix ? "", instanceName ? "zipcodeservice${instanceSuffix}"}:
 {zipcodes}:
 
-let
-  instanceName = "zipcodeservice${instanceSuffix}";
-in
 createManagedProcess {
-  name = instanceName;
+  inherit instanceName;
+
   description = "Zipcodes REST API";
   foregroundProcess = "${zipcodeservice}/lib/node_modules/zipcodeservice/app.js";
   environment = {

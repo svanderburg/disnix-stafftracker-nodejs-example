@@ -1,12 +1,10 @@
 {createManagedProcess, stafftracker}:
-{port, instanceSuffix ? ""}:
+{port, instanceSuffix ? "", instanceName ? "stafftracker${instanceSuffix}"}:
 {zipcodeservice, staffservice, roomservice}:
 
-let
-  instanceName = "stafftracker${instanceSuffix}";
-in
 createManagedProcess {
-  name = instanceName;
+  inherit instanceName;
+
   description = "StaffTracker front-end";
   foregroundProcess = "${stafftracker}/lib/node_modules/stafftracker/app.js";
   environment = {
