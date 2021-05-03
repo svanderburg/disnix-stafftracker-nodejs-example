@@ -4,6 +4,8 @@
 , logDir ? "${stateDir}/log"
 , tmpDir ? (if stateDir == "/var" then "/tmp" else "${stateDir}/tmp")
 , cacheDir ? "${stateDir}/cache"
+, spoolDir ? "${stateDir}/spool"
+, libDir ? "${stateDir}/lib"
 , forceDisableUserChange ? false
 , processManager ? "systemd"
 , nix-processmgmt ? ../../../nix-processmgmt
@@ -14,7 +16,7 @@ let
   services = import ./services.nix args;
 
   sharedConstructors = import "${nix-processmgmt-services}/services-agnostic/constructors.nix" {
-    inherit nix-processmgmt pkgs stateDir logDir runtimeDir tmpDir cacheDir forceDisableUserChange processManager;
+    inherit nix-processmgmt pkgs stateDir logDir runtimeDir tmpDir cacheDir spoolDir libDir forceDisableUserChange processManager;
   };
 in
 services // {
